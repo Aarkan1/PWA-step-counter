@@ -18,17 +18,31 @@ export default {
     };
   },
   created() {
-    let gyroscope = new Gyroscope();
-    gyroscope.start();
+    if ("DeviceOrientationEvent" in window) {
+      window.addEventListener(
+        "deviceorientation",
+        deviceOrientationHandler,
+        false
+      );
+    } 
 
-    gyroscope.onreading = e => {
-      this.leftRight = gyroscope.x.toFixed(4);
-      this.frontBack = gyroscope.y.toFixed(4);
-      this.dir = gyroscope.z.toFixed(4);
-    };
-    gyroscope.onerror = e => {
-      this.leftRight = "ERROR";
-    };
+    function deviceOrientationHandler(eventData) {
+      this.leftRight = eventData.gamma;
+      this.frontBack = eventData.beta;
+      this.dir = eventData.alpha;
+    }
+
+    // let gyroscope = new Gyroscope();
+    // gyroscope.start();
+
+    // gyroscope.onreading = e => {
+    //   this.leftRight = gyroscope.x.toFixed(4);
+    //   this.frontBack = gyroscope.y.toFixed(4);
+    //   this.dir = gyroscope.z.toFixed(4);
+    // };
+    // gyroscope.onerror = e => {
+    //   this.leftRight = "ERROR";
+    // };
   }
 };
 </script>
