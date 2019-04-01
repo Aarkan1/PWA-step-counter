@@ -3,8 +3,8 @@
     <h1>This is an about page</h1>
     <br>
     <h3>Gyroscope: {{gyro}}</h3>
-    <h3>Steps: {{steps}}</h3>
     <h3>Avarage: {{avarageGyro}}</h3>
+    <h3>Steps: {{steps}}</h3>
   </div>
 </template>
 
@@ -22,6 +22,7 @@ export default {
     gyroscope.start();
 
     let avarage = [];
+    let oldGyro = 0;
 
     gyroscope.onreading = e => {
       let x = gyroscope.x;
@@ -30,11 +31,14 @@ export default {
 
       this.gyro = Math.sqrt(x * x + y * y + z * z);
 
-      if (this.gyro > 1) {
+      if (this.gyro > 0.7 && this.gyro > oldGyro) {
         avarage.push(this.gyro);
 
-        this.avarageGyro = avarage.reduce((total, num) => total + num) / avarage.length;
+        this.avarageGyro =
+          avarage.reduce((total, num) => total + num) / avarage.length;
         this.steps++;
+
+        oldGyro = this.gyro;
       }
     };
     gyroscope.onerror = e => {
