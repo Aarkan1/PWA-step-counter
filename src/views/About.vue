@@ -22,9 +22,10 @@ export default {
     gyroscope.start();
 
     let avarage = [];
-    let oldGyro = 0;
 
     gyroscope.onreading = e => {
+      let oldGyro = 0;
+      
       let x = gyroscope.x;
       let y = gyroscope.y;
       let z = gyroscope.z;
