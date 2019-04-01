@@ -33,7 +33,7 @@ export default {
       if (this.gyro > 1) {
         avarage.push(this.gyro);
 
-        this.avarageGyro = avarage.reduce() / avarage.length;
+        this.avarageGyro = avarage.reduce((total, num) => total + num) / avarage.length;
         this.steps++;
       }
     };
