@@ -4,6 +4,7 @@
     <br>
     <h3>Gyroscope: {{gyro}}</h3>
     <h3>Steps: {{steps}}</h3>
+    <h3>Avarage: {{avarageGyro}}</h3>
   </div>
 </template>
 
@@ -12,12 +13,15 @@ export default {
   data() {
     return {
       gyro: 0,
-      steps: 0
+      steps: 0,
+      avarageGyro: 0
     };
   },
   created() {
     let gyroscope = new Gyroscope();
     gyroscope.start();
+
+    let avarage = [];
 
     gyroscope.onreading = e => {
       let x = gyroscope.x;
@@ -26,7 +30,12 @@ export default {
 
       this.gyro = Math.sqrt(x * x + y * y + z * z);
 
-      if (this.gyro > 1) this.steps++;
+      if (this.gyro > 1) {
+        avarage.push(this.gyro);
+
+        this.avarageGyro = avarage.reduce() / avarage.length;
+        this.steps++;
+      }
     };
     gyroscope.onerror = e => {
       this.gyro = "ERROR";
